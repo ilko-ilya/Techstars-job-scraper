@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/techstars_jobs
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - APP_SCRAPING_BASE_URL=https://jobs.techstars.com/jobs
+      - APP_SCRAPING_THREAD_POOL_SIZE=5
+      - APP_SCRAPING_WAIT_TIME_MS=2000
+      - SELENIUM_WEBDRIVER_CHROME_HEADLESS=true
+    depends_on:
+      - db
+    networks:
+      - techstars-network
+
+  db:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_DB=techstars_jobs
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - techstars-network
+
+volumes:
+  postgres_data:
+
+networks:
+  techstars-network:
+    driver: bridge

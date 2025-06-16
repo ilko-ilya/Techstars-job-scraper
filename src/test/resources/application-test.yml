@@ -1,0 +1,45 @@
+selenium:
+  webdriver:
+    chrome:
+      executable: chromedriver
+      headless: true
+      options:
+        - --disable-gpu
+        - --no-sandbox
+        - --disable-dev-shm-usage
+        - --remote-allow-origins=*
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+
+logging:
+  level:
+    root: INFO
+    dev.javajunior.techstars_jobs_scraper: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+app:
+  scraping:
+    base-url: https://jobs.techstars.com/jobs
+    thread-pool-size: 2
+    wait-time-ms: 1000

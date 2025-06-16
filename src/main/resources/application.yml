@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: Techstars Job Parser
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/techstars_jobs
+    username: postgres
+    password: Q12345w6
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    format-sql: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    dev.javajunior.techstars_jobs_scraper: DEBUG
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+selenium:
+  webdriver:
+    chrome:
+      executable: chromedriver
+      headless: true
+      options:
+        - --disable-gpu
+        - --no-sandbox
+        - --disable-dev-shm-usage
+        - --remote-allow-origins=*
+
+app:
+  scraping:
+    base-url: https://jobs.techstars.com/jobs
+    thread-pool-size: 5
+    wait-time-ms: 2000
+
+scraper:
+  base-url: https://jobs.techstars.com/
