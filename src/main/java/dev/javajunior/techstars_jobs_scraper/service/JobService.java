@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class JobService {
@@ -15,5 +17,9 @@ public class JobService {
 
     public Page<Job> getJobs(JobFilter filter, Pageable pageable) {
         return jobRepository.findByLocation(filter.location(), pageable);
+    }
+
+    public List<Job> getJobsForExport(String location, int limit) {
+        return jobRepository.findByLocation(location, limit);
     }
 } 

@@ -23,4 +23,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
 
     @Query("SELECT j FROM Job j WHERE (:location IS NULL OR j.location LIKE %:location%)")
     Page<Job> findByLocation(@Param("location") String location, Pageable pageable);
+
+    @Query(value = "SELECT * FROM jobs WHERE (:location IS NULL OR location LIKE %:location%) FETCH FIRST :limit ROWS ONLY", nativeQuery = true)
+    List<Job> findByLocation(@Param("location") String location, @Param("limit") int limit);
 } 
